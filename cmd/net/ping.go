@@ -1,5 +1,5 @@
 /*
-Copyright © 2023 NAME HERE <EMAIL ADDRESS>
+Copyright © 2023 Waldir Borba Junior <wborbajr@gmail.com>
 */
 package net
 
