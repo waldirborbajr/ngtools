@@ -6,5 +6,6 @@ package main
 import "localhost/ngtools/cmd"
 
 func main() {
-	cmd.Execute()
+	cmd := cmd.Cli{}
+	cmd.Run()
 }

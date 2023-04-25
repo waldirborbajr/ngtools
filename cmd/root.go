@@ -4,50 +4,50 @@ Copyright © 2023 Waldir Borba Junior <wborbajr@gmail.com>
 package cmd
 
 import (
-	"localhost/ngtools/cmd/net"
+	"flag"
+	"fmt"
+	"log"
 	"os"
-
-	"github.com/spf13/cobra"
 )
 
-// rootCmd represents the base command when called without any subcommands
-var rootCmd = &cobra.Command{
-	Use:   "ngtools",
-	Short: "A brief description of your application",
-	Long: `A longer description that spans multiple lines and likely contains
-examples and usage of using your application. For example:
+type Cli struct{}
 
-Cobra is a CLI library for Go that empowers applications.
-This application is a tool to generate the needed files
-to quickly create a Cobra application.`,
-	// Uncomment the following line if your bare application
-	// has an action associated with it:
-	// Run: func(cmd *cobra.Command, args []string) { },
+func (cli *Cli) printUsage() {
+	fmt.Println("Usage:")
+	fmt.Println("   start [protocol] [port] - Start ngrok PROTOCOL to be used http/tcp/tls PORT to be opened")
+	fmt.Println("   stop - Stop ngrok")
 }
 
-// Execute adds all child commands to the root command and sets flags appropriately.
-// This is called by main.main(). It only needs to happen once to the rootCmd.
-func Execute() {
-	err := rootCmd.Execute()
-	if err != nil {
+func (cli *Cli) validateArgs() {
+	if len(os.Args) < 2 {
+		cli.printUsage()
 		os.Exit(1)
 	}
 }
 
-func addSubcommandNet() {
-	rootCmd.AddCommand(net.NetCmd)
-}
+func (cli *Cli) Run() {
+	cli.validateArgs()
 
-func init() {
-	// Here you will define your flags and configuration settings.
-	// Cobra supports persistent flags, which, if defined here,
-	// will be global for your application.
+	startCmd := flag.NewFlagSet("start", flag.ExitOnError)
 
-	// rootCmd.PersistentFlags().StringVar(&cfgFile, "config", "", "config file (default is $HOME/.ngtools.yaml)")
+	startProto := startCmd.String("protocol", "", "The protocolo to be enabled http/tls/tcp")
+	startPort := startCmd.Int("port", 0, "The port to be opened")
 
-	// Cobra also supports local flags, which will only run
-	// when this action is called directly.
-	rootCmd.Flags().BoolP("toggle", "t", false, "Help message for toggle")
+	switch os.Args[1] {
+	case "start":
+		if err := startCmd.Parse(os.Args[2:]); err != nil {
+			log.Panic(err)
+		}
+	default:
+		cli.printUsage()
+		os.Exit(1)
+	}
 
-	addSubcommandNet()
+	if startCmd.Parsed() {
+		if *startProto == "" || *startPort <= 0 {
+			startCmd.Usage()
+			os.Exit(1)
+
+		}
+	}
 }
