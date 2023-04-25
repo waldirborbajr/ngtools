@@ -47,7 +47,8 @@ func (cli *Cli) Run() {
 		if *startProto == "" || *startPort <= 0 {
 			startCmd.Usage()
 			os.Exit(1)
-
 		}
+
+		cli.start(*startProto, *startPort)
 	}
 }
