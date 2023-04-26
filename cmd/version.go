@@ -10,15 +10,12 @@ import (
 	"strings"
 )
 
-// type startCmd struct{}
-
-func (cli *Cli) start(protocol string, port int) {
-
-	fmt.Println("started... ", protocol, port)
+func (cli *Cli) version() {
 
 	cmd := secureexec.Command("ngrok", "--version")
 	stdout, _ := cmd.Output()
 	gitVersion := strings.Trim(strings.TrimPrefix(string(stdout), "git version "), " \r\n")
+
 	fmt.Println(gitVersion)
 
 }

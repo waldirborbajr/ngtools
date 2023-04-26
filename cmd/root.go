@@ -34,6 +34,7 @@ func (cli *Cli) Run() {
 	startCmd := flag.NewFlagSet("start", flag.ExitOnError)
 	stopCmd := flag.NewFlagSet("stop", flag.ExitOnError)
 	addrCmd := flag.NewFlagSet("add", flag.ExitOnError)
+	versionCmd := flag.NewFlagSet("version", flag.ExitOnError)
 
 	// StartCmd
 	startProto := startCmd.String("protocol", "", "The protocolo to be enabled http/tls/tcp")
@@ -42,6 +43,8 @@ func (cli *Cli) Run() {
 	// stopCmd
 
 	// addCmd
+
+	// versionCmd
 
 	switch os.Args[1] {
 
@@ -57,6 +60,11 @@ func (cli *Cli) Run() {
 
 	case "addr":
 		if err := addrCmd.Parse(os.Args[2:]); err != nil {
+			log.Panic(err)
+		}
+
+	case "version":
+		if err := versionCmd.Parse(os.Args[2:]); err != nil {
 			log.Panic(err)
 		}
 
@@ -80,5 +88,9 @@ func (cli *Cli) Run() {
 
 	if addrCmd.Parsed() {
 		cli.addr()
+	}
+
+	if versionCmd.Parsed() {
+		cli.version()
 	}
 }
