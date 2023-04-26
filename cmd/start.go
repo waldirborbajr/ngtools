@@ -6,8 +6,6 @@ package cmd
 
 import (
 	"fmt"
-	"localhost/ngtools/internal/secureexec"
-	"strings"
 )
 
 // type startCmd struct{}
@@ -15,10 +13,5 @@ import (
 func (cli *Cli) start(protocol string, port int) {
 
 	fmt.Println("started... ", protocol, port)
-
-	cmd := secureexec.Command("ngrok", "--version")
-	stdout, _ := cmd.Output()
-	gitVersion := strings.Trim(strings.TrimPrefix(string(stdout), "git version "), " \r\n")
-	fmt.Println(gitVersion)
 
 }
