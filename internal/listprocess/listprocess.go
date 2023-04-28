@@ -1,14 +1,19 @@
 package listprocess
 
 import (
-	"fmt"
+	"strings"
 
 	"github.com/shirou/gopsutil/v3/process"
 )
 
-func HasProcessRunning() {
+func HasProcessRunning() bool {
 	processes, _ := process.Processes()
+
 	for _, p := range processes {
-		fmt.Println(p.Name())
+		procName, _ := p.Name()
+		if strings.Contains(procName, "ngrok") {
+			return true
+		}
 	}
+	return false
 }

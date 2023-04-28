@@ -10,13 +10,13 @@ import (
 func KillRunningProcess(processName string) error {
 	procArgs := []string{"-c", "killall", processName}
 
-	listprocess.HasProcessRunning()
+	if listprocess.HasProcessRunning() {
+		cmd := secureexec.Command("bash", procArgs...)
+		output, err := cmd.CombinedOutput()
 
-	cmd := secureexec.Command("bash", procArgs...)
-	output, err := cmd.CombinedOutput()
-
-	if err != nil {
-		return errors.New(fmt.Sprintf("%s - %s", err, string(output)))
+		if err != nil {
+			return errors.New(fmt.Sprintf("%s - %s", err, string(output)))
+		}
 	}
 
 	return nil
