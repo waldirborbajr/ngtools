@@ -5,13 +5,17 @@ import (
 	"fmt"
 	"localhost/ngtools/internal/listprocess"
 	"localhost/ngtools/internal/secureexec"
+	"os"
 )
 
 func KillRunningProcess(processName string) error {
-	procArgs := []string{"-c", "killall", processName}
+	procArgs := "killall -v " + processName
+
+	fmt.Println(procArgs)
 
 	if listprocess.HasProcessRunning() {
-		cmd := secureexec.Command("bash", procArgs...)
+		cmd := secureexec.Command("sh", "-c", procArgs)
+		cmd.Env = os.Environ()
 		output, err := cmd.CombinedOutput()
 
 		if err != nil {
