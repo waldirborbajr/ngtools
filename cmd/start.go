@@ -9,6 +9,7 @@ import (
 	"localhost/ngtools/internal/getngrokurl"
 	"localhost/ngtools/internal/hascurl"
 	"localhost/ngtools/internal/hasnohup"
+	"localhost/ngtools/internal/listprocess"
 	"localhost/ngtools/internal/showerror"
 	"localhost/ngtools/internal/startngrok"
 	"os"
@@ -19,6 +20,12 @@ func (cli *Cli) start(protocol string, port int) {
 	path, err := hascurl.HasCurl()
 	if err != nil {
 		showerror.ShowError("Curl not found. Please install it first and run it again.\n")
+		os.Exit(1)
+	}
+
+	// Check for previusly running instance
+	if listprocess.HasProcessRunning() {
+		showerror.ShowError("ngrok it is running, please stop it first before start new one instance.")
 		os.Exit(1)
 	}
 
