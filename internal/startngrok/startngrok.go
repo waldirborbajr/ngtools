@@ -9,8 +9,8 @@ import (
 
 func StartNGRok(protocol string, port string) {
 
-	ngrokArgs := []string{"-c", protocol, port}
-	cmd := secureexec.Command("/usr/bin/bash", ngrokArgs...)
+	ngrokArgs := []string{"ngrok", protocol, port}
+	cmd := secureexec.Command("nohup", ngrokArgs...)
 	stdout, err := cmd.CombinedOutput()
 
 	if err != nil {

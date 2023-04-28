@@ -6,10 +6,13 @@ package cmd
 
 import (
 	"fmt"
+	"localhost/ngtools/internal/getngrokurl"
 	"localhost/ngtools/internal/hascurl"
+	"localhost/ngtools/internal/hasnohup"
 	"localhost/ngtools/internal/showerror"
 	"localhost/ngtools/internal/startngrok"
 	"os"
+	"strconv"
 )
 
 // type startCmd struct{}
@@ -23,7 +26,18 @@ func (cli *Cli) start(protocol string, port int) {
 		os.Exit(1)
 	}
 
-	fmt.Println(path)
-	startngrok.StartNGRok("http", "8080")
+	// Remove previusly nohup
+	hasnohup.HasNoHup()
 
+	// Start ngrok
+	startngrok.StartNGRok(protocol, strconv.Itoa(port))
+
+	// Get url generated
+	var url string
+	if url, err = getngrokurl.GetngrokURL(path); err != nil {
+		showerror.ShowError("Error executing curl. Please verify if ngrok it is up and running.\n")
+		os.Exit(1)
+	}
+
+	fmt.Println(url)
 }
