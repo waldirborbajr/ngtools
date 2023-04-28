@@ -6,7 +6,6 @@ package main
 
 import (
 	"localhost/ngtools/cmd"
-	"localhost/ngtools/internal/hascurl"
 	"localhost/ngtools/internal/showerror"
 	"localhost/ngtools/internal/verifyos"
 	"os"
@@ -20,8 +19,6 @@ func init() {
 		os.Exit(1)
 	}
 
-	// Verify if has curl installed
-	hascurl.HasCurl()
 }
 
 func main() {

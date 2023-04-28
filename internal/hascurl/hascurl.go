@@ -1,18 +1,15 @@
 package hascurl
 
 import (
-	"localhost/ngtools/internal/showerror"
-	"os"
 	"os/exec"
 )
 
-func HasCurl() string {
+func HasCurl() (string, error) {
 	var curlPath string
 	var err error
 
-	if curlPath, err = exec.LookPath("curli"); err != nil {
-		showerror.ShowError("Curl not found. Please install it first and run it again.\n")
-		os.Exit(1)
+	if curlPath, err = exec.LookPath("curl"); err != nil {
+		return "", err
 	}
-	return curlPath
+	return curlPath, nil
 }
