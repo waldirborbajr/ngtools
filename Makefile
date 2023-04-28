@@ -15,7 +15,7 @@ SYS_VERSION:="v0.1.0"
 GO_LDFLAGS += \
 	-s \
 	-w \
-	"-extldflags=-static" \
+	'-extldflags=-static' \
   -X $(VERSION_PACKAGE).Version=$(SYS_VERSION) \
   -X $(VERSION_PACKAGE).GitVersion=$(VERSION) \
   -X $(VERSION_PACKAGE).GitCommit=$(GIT_COMMIT) \
@@ -27,11 +27,7 @@ all: format build
 
 .PHONY: build
 build:
-	go build -v -a -ldflags "$(GO_LDFLAGS)" -o bin/ngtools main.go
-
-.PHONY: run
-run: build
-	./bin/ngtools start -protocol http -port 3031
+	go build -a -ldflags "$(GO_LDFLAGS)" -o bin/ngtools main.go
 
 .PHONY: tidy
 tidy: 
@@ -40,3 +36,7 @@ tidy:
 .PHONY: format
 format: 
 	@gofmt -s -w ./
+
+.PHONY: run
+run: build
+	./bin/ngtools start -protocol http -port 3031

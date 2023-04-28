@@ -6,6 +6,8 @@ package cmd
 
 import (
 	"fmt"
+	"localhost/ngtools/internal/secureexec"
+	"strings"
 )
 
 var (
@@ -23,12 +25,13 @@ var (
 
 func (cli *Cli) version() {
 
-	// cmd := secureexec.Command("ngrok", "--version")
-	// // stdout, _ := cmd.Output()
-	// stdout, _ := cmd.CombinedOutput()
-	// ngrokVersion := strings.Trim(strings.TrimPrefix(string(stdout), "git version "), " \r\n")
+	cmd := secureexec.Command("ngrok", "--version")
+	// stdout, _ := cmd.Output()
+	stdout, _ := cmd.CombinedOutput()
+	ngrokVersion := strings.Trim(strings.TrimPrefix(string(stdout), "git version "), " \r\n")
 
 	fmt.Println("NGTools ", Version)
+	fmt.Println("ngrok   ", ngrokVersion)
 	fmt.Println(" Git Version    ", GitVersion)
 	fmt.Println(" Build Date     ", BuildDate)
 	fmt.Println(" Git Commmit    ", GitCommit)
