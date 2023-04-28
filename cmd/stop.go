@@ -4,10 +4,17 @@ Copyright © 2023 Waldir Borba Junior <wborbajr@gmail.com>
 
 package cmd
 
-import "fmt"
+import (
+	"localhost/ngtools/internal/killprocess"
+	"localhost/ngtools/internal/showerror"
+	"os"
+)
 
 func (cli *Cli) stop() {
 
-	fmt.Println("stopped... ")
+	if err := killprocess.KillRunningProcess("ngrok"); err != nil {
+		showerror.ShowError(err.Error())
+		os.Exit(1)
+	}
 
 }
