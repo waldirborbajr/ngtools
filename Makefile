@@ -13,6 +13,7 @@ VERSION_PACKAGE=localhost/ngtools/cmd
 SYS_VERSION:="v0.1.0"
 
 GO_LDFLAGS += \
+	-w \
 	"-extldflags=-static" \
   -X $(VERSION_PACKAGE).Version=$(SYS_VERSION) \
   -X $(VERSION_PACKAGE).GitVersion=$(VERSION) \
