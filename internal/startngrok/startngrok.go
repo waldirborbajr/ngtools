@@ -8,17 +8,15 @@ import (
 )
 
 func StartNGRok(protocol string, port string) {
-
-	ngrokArgs := []string{"ngrok", protocol, port}
-	cmd := secureexec.Command("nohup", ngrokArgs...)
-	stdout, err := cmd.CombinedOutput()
+	ngrokArgs := fmt.Sprintf("nohup ngrok %s %s > /dev/null 2> /dev/null < /dev/null &", protocol, port)
+	cmd := secureexec.Command("sh", "-c", ngrokArgs)
+	cmd.Env = os.Environ()
+	_, err := cmd.CombinedOutput()
 
 	if err != nil {
-		fmt.Println(err.Error())
+		fmt.Println(err)
 		os.Exit(1)
 	}
-
-	fmt.Println(string(stdout))
 
 	time.Sleep(2 * time.Second)
 }

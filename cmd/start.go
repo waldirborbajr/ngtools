@@ -29,7 +29,7 @@ func (cli *Cli) start(protocol string, port int) {
 		os.Exit(1)
 	}
 
-	// Remove previusly nohup
+	// Remove previusly nohup if exists
 	hasnohup.HasNoHup()
 
 	// Start ngrok
