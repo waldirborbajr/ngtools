@@ -39,7 +39,7 @@ format:
 
 .PHONY: test
 test: 
-	go test ./...
+	go test -v -timeout=1s -race -covermode=atomic -count=1 ./...
 
 .PHONY: run
 run: build
