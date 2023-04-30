@@ -11,17 +11,13 @@ import (
 	"os"
 )
 
-func init() {
+func main() {
 
 	// Verify is it is an applicable OS
 	if verifyos.VerifyOS() {
 		showerror.ShowError("This program it not applicable for Windows machine.")
 		os.Exit(1)
 	}
-
-}
-
-func main() {
 
 	cmd := cmd.Cli{}
 	cmd.Run()
