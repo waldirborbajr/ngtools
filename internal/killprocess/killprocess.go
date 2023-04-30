@@ -9,6 +9,11 @@ import (
 )
 
 func KillRunningProcess(processName string) error {
+
+	if len(processName) == 0 {
+		return errors.New("ERROR: missing process name")
+	}
+
 	procArgs := "killall -v " + processName
 
 	if listprocess.HasProcessRunning() {
