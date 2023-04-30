@@ -37,6 +37,10 @@ tidy:
 format: 
 	@gofmt -s -w ./
 
+.PHONY: test
+test: 
+	go test ./...
+
 .PHONY: run
 run: build
 	./bin/ngtools start -protocol http -port 3031
