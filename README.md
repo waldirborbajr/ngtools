@@ -1,11 +1,5 @@
 # NGTools
 
-[![CodeQL](https://github.com/waldirborbajr/ngtools/actions/workflows/codeql.yml/badge.svg)](https://github.com/waldirborbajr/
-ngtools/actions/workflows/codeql.yml)
-[![Release](https://github.com/waldirborbajr/
-ngtools/actions/workflows/goreleaser.yaml/badge.svg)](https://github.com/waldirborbajr/
-ngtools/actions/workflows/goreleaser.yaml)
-
 `tl;dr:` NGTools it is a CLI (Command Line Interface), thats wrap `NGrok` to start and stop and returns HTTPS.
 
 ### How to execute?
