@@ -1,28 +1,18 @@
+run:
+  timeout: 3m
+
 linters:
   enable:
-    - bodyclose
-    - dupl
-    - exportloopref
-    - gochecknoinits
-    - gocritic
-    - gofmt
-    # - gofumpt
-    - misspell
-    - lll
-    - prealloc
-    - revive
-    - unconvert
-    - whitespace
-  disable:
+    - vet
     - errcheck
-
-issues:
-  exclude-use-default: false
-
-linters-settings:
-  govet:
-    enable-all: true
-    disable:
-      - fieldalignment
-      - reflectvaluecompare
-      - shadow
+    - staticcheck
+    #   - dupl
+    #   - funlen
+    #   - goconst
+    #   - gocritic
+    - gofmt
+    #   - golint
+    #   - misspell
+    #   - stylecheck
+    - unconvert
+#   - whitespace
