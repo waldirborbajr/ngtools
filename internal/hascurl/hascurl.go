@@ -1,6 +1,7 @@
 package hascurl
 
 import (
+	"log"
 	"os/exec"
 )
 

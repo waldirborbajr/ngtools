@@ -5,10 +5,11 @@ Copyright © 2023 Waldir Borba Junior <wborbajr@gmail.com>
 package main
 
 import (
+	"os"
+
 	"localhost/ngtools/cmd"
 	"localhost/ngtools/internal/showerror"
 	"localhost/ngtools/internal/verifyos"
-	"os"
 )
 
 func main() {
