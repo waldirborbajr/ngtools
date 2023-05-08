@@ -9,7 +9,6 @@ import (
 )
 
 func KillRunningProcess(processName string) error {
-
 	if len(processName) == 0 {
 		return errors.New("ERROR: missing process name")
 	}
@@ -20,9 +19,9 @@ func KillRunningProcess(processName string) error {
 		cmd := secureexec.Command("sh", "-c", procArgs)
 		cmd.Env = os.Environ()
 		output, err := cmd.CombinedOutput()
-
 		if err != nil {
-			return errors.New(fmt.Sprintf("%s - %s", err, string(output)))
+			// return errors.New(fmt.Sprintf("%s - %s", err, string(output)))
+			return (fmt.Errorf(string(output), err))
 		}
 	}
 
