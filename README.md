@@ -4,7 +4,7 @@
 
 ### How to execute?
 
-`ngtoold start http 8080`
+`ngtools start http 8080`
 
 ## What is it NGrok?
 
