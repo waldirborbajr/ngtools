@@ -25,6 +25,4 @@ SPDX-License-Identifier: Apache-2.0
 
 ## Technology
 
-<img src="assets/gopher.png" alt="gopher" width="45" height="45"/> 
-
 [GO](https://go.dev/)
