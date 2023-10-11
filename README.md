@@ -1,6 +1,6 @@
 # NGTools
 
-`tl;dr:` NGTools it is a CLI (Command Line Interface), thats wrap `NGrok` to start and stop and returns HTTPS.
+`tl;dr:` NGTools is a CLI (Command Line Interface), that wraps `NGrok` to start and stop and returns HTTPS.
 
 ### How to execute?
 
