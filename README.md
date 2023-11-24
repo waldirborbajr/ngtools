@@ -1,5 +1,7 @@
 # NGTools
 
+[![lint](https://github.com/waldirborbajr/ngtools/actions/workflows/golangci-lint.yml/badge.svg)](https://github.com/waldirborbajr/ngtools/actions/workflows/golangci-lint.yml)
+
 `tl;dr:` NGTools is a CLI (Command Line Interface), that wraps `NGrok` to start and stop and returns HTTPS.
 
 ### How to execute?
