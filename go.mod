@@ -4,7 +4,7 @@ go 1.20
 
 require (
 	github.com/fatih/color v1.16.0
-	github.com/shirou/gopsutil/v3 v3.23.11
+	github.com/shirou/gopsutil/v3 v3.23.12
 )
 
 require (
