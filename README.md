@@ -1,5 +1,9 @@
 # NGTools
 
+<p align="center">
+  <img width="256" height="256" src="./assets/ngtools-logo.png" />
+</p>
+
 [![lint](https://github.com/waldirborbajr/ngtools/actions/workflows/golangci-lint.yml/badge.svg)](https://github.com/waldirborbajr/ngtools/actions/workflows/golangci-lint.yml)
 
 `tl;dr:` NGTools is a CLI (Command Line Interface), that wraps `NGrok` to start and stop and returns HTTPS.
