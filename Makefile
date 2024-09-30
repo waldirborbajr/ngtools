@@ -105,6 +105,10 @@ $(GOBIN)/gosec:
 run: build
 	./bin/ngtools start -protocol http -port 3031
 
+## update: update go.mod
+update:
+	go get -u all
+
 ## lint: runs a number of code quality checks against the source code
 lint: $(GOBIN)/golangci-lint
 	golangci-lint cache clean
