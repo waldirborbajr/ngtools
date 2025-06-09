@@ -1,11 +1,13 @@
 package hasnohup
 
-import "os"
+import (
+	"os"
+)
 
-func HasNoHup() {
-	_, err := os.Stat("nohup")
+func RemoveNoHup() error {
+	return os.Remove("nohup.out")
+}
 
-	if !os.IsNotExist(err) {
-		os.Remove("nohup")
-	}
+func CreateNoHup() (*os.File, error) {
+	return os.OpenFile("nohup.out", os.O_CREATE|os.O_WRONLY, 0600)
 }

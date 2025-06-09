@@ -1,38 +1,34 @@
 package getngrokurl
 
 import (
-	"fmt"
-	"os"
-	"os/exec"
-	"regexp"
-	"strings"
+	"encoding/json"
+	"errors"
+	"net/http"
+	"time"
 )
 
-func GetngrokURL(curlPath string) (string, error) {
-	out, err := exec.Command(curlPath, "-s", "http://127.0.0.1:4040/api/tunnels").Output()
+type Tunnel struct {
+	PublicURL string `json:"public_url"`
+}
+
+type TunnelsResponse struct {
+	Tunnels []Tunnel `json:"tunnels"`
+}
+
+func GetNgrokURL() (string, error) {
+	client := &http.Client{Timeout: 3 * time.Second}
+	resp, err := client.Get("http://127.0.0.1:4040/api/tunnels")
 	if err != nil {
 		return "", err
 	}
-	output := out[:]
-	return processRegexp(string(output)), nil
-}
+	defer resp.Body.Close()
 
-func processRegexp(output string) string {
-	str := ""
-
-	re := regexp.MustCompile(`"public_url":"https://([^"]+)"`)
-	reurl := regexp.MustCompile(`"https://([^"]+)"`)
-
-	if len(re.FindStringIndex(output)) > 0 {
-		str = re.FindString(output)
-
-		if len(reurl.FindStringIndex(str)) > 0 {
-			addr := reurl.FindString(str)
-			addr = strings.ReplaceAll(addr, "\"", "")
-			fmt.Println(addr)
-			os.Exit(0)
-		}
+	var result TunnelsResponse
+	if err := json.NewDecoder(resp.Body).Decode(&result); err != nil {
+		return "", err
 	}
-
-	return ""
+	if len(result.Tunnels) == 0 {
+		return "", errors.New("no tunnels found")
+	}
+	return result.Tunnels[0].PublicURL, nil
 }

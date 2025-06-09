@@ -8,27 +8,99 @@
 
 `tl;dr:` NGTools is a CLI (Command Line Interface), that wraps `NGrok` to start and stop and returns HTTPS.
 
-### How to execute?
+---
 
-`ngtools start http 8080`
+## 📁 Project Structure
 
-## What is it NGrok?
+```
+ngtools/
+├── cmd/
+│   ├── addr.go         # Command to display ngrok public URL
+│   ├── root.go         # CLI definition and command routing
+│   ├── start.go        # Command to start ngrok
+│   ├── stop.go         # Command to stop ngrok
+│   └── version.go      # Command to display ngrok version
+├── internal/
+│   ├── getngrokurl/    # Fetches ngrok public URL via local API
+│   ├── hascurl/        # Checks if curl is installed
+│   ├── hasnohup/       # Manages nohup.out file
+│   ├── killprocess/    # Kills ngrok process by PID
+│   ├── listprocess/    # Checks if ngrok is running
+│   ├── secureexec/     # Secure execution of external commands
+│   ├── showerror/      # Displays formatted error messages
+│   ├── startngrok/     # Starts ngrok and saves PID
+│   └── verifyos/       # Checks operating system
+├── main.go             # Application entry point
+├── go.mod              # Go dependencies management
+└── README.md           # This file
+```
 
-ngrok is the programmable network edge that adds connectivity, security, and observability to your apps with no code changes
+---
 
-[ngrok](https://ngrok.com/)
+## 🚀 How to Run
 
-## License
+### 1. Prerequisites
 
-[Apache](https://github.com/WaldirBorbaJR/ngtools/-/blob/main/LICENSE)
+- Go 1.20+ installed
+- ngrok installed and available in your PATH
+- Linux (Windows is not supported)
 
-## Legal
+### 2. Installation
 
-Copyright 2023 Waldir Borba Junior (<mailto:wborbajr@gmail.com>)
-SPDX-License-Identifier: Apache-2.0
+Clone the repository and install dependencies:
 
-## TODO
+```sh
+git clone https://github.com/youruser/ngtools.git
+cd ngtools
+go mod tidy
+```
 
-## Technology
+### 3. Build
 
-[GO](https://go.dev/)
+```sh
+go build -o ngtools
+```
+
+### 4. Usage
+
+```sh
+./ngtools <command>
+```
+
+#### Available commands:
+
+- `start`   – Starts ngrok and saves the PID
+- `stop`    – Stops ngrok using the saved PID
+- `addr`    – Displays the ngrok public URL
+- `version` – Shows the installed ngrok version
+
+Example:
+
+```sh
+./ngtools start
+./ngtools addr
+./ngtools stop
+```
+
+---
+
+## 🛡️ Security and Best Practices
+
+- Does not execute shell commands with user input.
+- Restricts permissions for temporary files (0600).
+- Only kills the ngrok process started by the tool.
+- Not supported on Windows.
+
+---
+
+## 🧪 Testing
+
+To run automated tests:
+
+```sh
+go test ./...
+```
+
+---
+
+## 📄 License

@@ -7,8 +7,6 @@ package cmd
 import (
 	"fmt"
 	"localhost/ngtools/internal/getngrokurl"
-	"localhost/ngtools/internal/hascurl"
-	"localhost/ngtools/internal/hasnohup"
 	"localhost/ngtools/internal/listprocess"
 	"localhost/ngtools/internal/showerror"
 	"localhost/ngtools/internal/startngrok"
@@ -17,11 +15,11 @@ import (
 )
 
 func (cli *Cli) start(protocol string, port int) {
-	path, err := hascurl.HasCurl()
-	if err != nil {
-		showerror.ShowError("Curl not found. Please install it first and run it again.\n")
-		os.Exit(1)
-	}
+	// path, err := hascurl.HasCurl()
+	// if err != nil {
+	// 	showerror.ShowError("Curl not found. Please install it first and run it again.\n")
+	// 	os.Exit(1)
+	// }
 
 	// Check for previusly running instance
 	if listprocess.HasProcessRunning() {
@@ -30,13 +28,13 @@ func (cli *Cli) start(protocol string, port int) {
 	}
 
 	// Remove previusly nohup if exists
-	hasnohup.HasNoHup()
+	// hasnohup.HasNoHup()
 
 	// Start ngrok
 	startngrok.StartNGRok(protocol, strconv.Itoa(port))
 
 	// Get url generated
-	url, err := getngrokurl.GetngrokURL(path)
+	url, err := getngrokurl.GetNgrokURL()
 	if err != nil {
 		showerror.ShowError("Error executing curl. Please verify if ngrok it is up and running.\n")
 		os.Exit(1)

@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"localhost/ngtools/internal/secureexec"
 	"os"
+	"os/exec"
+	"strconv"
 	"time"
 )
 
@@ -19,4 +21,13 @@ func StartNGRok(protocol string, port string) {
 	}
 
 	time.Sleep(2 * time.Second)
+}
+
+func StartNgrok() error {
+	cmd := exec.Command("ngrok", "http", "80")
+	if err := cmd.Start(); err != nil {
+		return err
+	}
+	// Salva o PID para uso posterior
+	return os.WriteFile("ngrok.pid", []byte(strconv.Itoa(cmd.Process.Pid)), 0600)
 }
