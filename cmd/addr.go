@@ -13,12 +13,6 @@ import (
 
 func (cli *Cli) addr() {
 
-	// path, err := hascurl.HasCurl()
-	// if err != nil {
-	// 	showerror.ShowError("Curl not found. Please install it first and run it again.\n")
-	// 	os.Exit(1)
-	// }
-
 	// Get url generated
 	url, err := getngrokurl.GetNgrokURL()
 	if err != nil {

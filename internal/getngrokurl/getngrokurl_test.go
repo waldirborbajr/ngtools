@@ -1,55 +1,51 @@
-package getngrokurl_test
+package hasnohup
 
 import (
-  "testing"
-  "errors"
+	"os"
+	"testing"
 )
 
-/*
-**Caso de teste 1**: curlPath inválido
-- Entrada: curlPath = ""
-- Saída esperada: erro retornado 
+func TestRemoveNoHup(t *testing.T) {
+	// Create a dummy nohup.out file
+	file, err := os.Create("nohup.out")
+	if err != nil {
+		t.Fatalf("Failed to create nohup.out: %v", err)
+	}
+	file.Close()
 
-**Caso de teste 2**: Comando curl falha
-- Entrada: curlPath válido, mas comando curl retorna erro
-- Saída esperada: erro retornado
+	// Remove the file using RemoveNoHup
+	err = RemoveNoHup()
+	if err != nil && !os.IsNotExist(err) {
+		t.Errorf("RemoveNoHup returned error: %v", err)
+	}
 
-**Caso de teste 3**: Saída do comando curl não contém URL
-- Entrada: comando curl executado com sucesso, mas saída não contém URL esperada
-- Saída esperada: string vazia retornada
-
-**Caso de teste 4**: Saída do comando curl contém URL
-- Entrada: comando curl executado com sucesso e saída contém URL esperada
-- Saída esperada: URL extraída e retornada
-*/
-
-func TestGetngrokURL(t *testing.T) {
-
-  // Caso 1
-  _, err := GetngrokURL("")
-  if err == nil {
-    t.Error("Devia retornar erro para curlPath inválido")
-  }
-
-  // Caso 2
-  _, err := GetngrokURL("/bin/curl_invalido") 
-  if err == nil {
-    t.Error("Devia retornar erro para comando curl inválido")
-  }
-
-  // Caso 3
-  output := `{"tunnels": []}`
-  url, _ := processRegexp(output)
-  if url != "" {
-    t.Error("Devia retornar string vazia para saída sem URL") 
-  }
-
-  // Caso 4
-  output := `{"tunnels":[{"public_url":"https://testurl.ngrok.io"}]}` 
-  url, _ := processRegexp(output)
-  if url != "https://testurl.ngrok.io" {
-    t.Error("Devia retornar URL extraída")
-  }
-
+	// Check that the file no longer exists
+	if _, err := os.Stat("nohup.out"); !os.IsNotExist(err) {
+		t.Errorf("nohup.out should not exist after RemoveNoHup")
+	}
 }
-```
+
+func TestCreateNoHup(t *testing.T) {
+	// Ensure the file does not exist before test
+	_ = os.Remove("nohup.out")
+
+	f, err := CreateNoHup()
+	if err != nil {
+		t.Fatalf("CreateNoHup returned error: %v", err)
+	}
+	defer f.Close()
+
+	// Check file exists
+	info, err := os.Stat("nohup.out")
+	if err != nil {
+		t.Fatalf("nohup.out does not exist after CreateNoHup: %v", err)
+	}
+
+	// Check permissions are 0600
+	if info.Mode().Perm() != 0600 {
+		t.Errorf("nohup.out permissions = %v; want 0600", info.Mode().Perm())
+	}
+
+	// Clean up
+	_ = os.Remove("nohup.out")
+}

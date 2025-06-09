@@ -5,23 +5,58 @@ import (
 	"localhost/ngtools/internal/killprocess"
 	"os"
 	"os/exec"
+	"strconv"
 	"testing"
+	"time"
 )
 
 func TestKillRunningProcess(t *testing.T) {
-	// Start a dummy process
-	cmd := exec.Command("sleep", "3600")
-	err := cmd.Start()
-	if err != nil {
+	// Start a dummy process (sleep for 60 seconds)
+	cmd := exec.Command("sleep", "60")
+	if err := cmd.Start(); err != nil {
 		t.Fatalf("Failed to start dummy process: %v", err)
 	}
 	defer func() {
 		// Kill the dummy process when the test is done
-		err := cmd.Process.Kill()
-		if err != nil {
-			t.Fatalf("Failed to kill dummy process: %v", err)
-		}
+		_ = cmd.Process.Kill()
+		_ = os.Remove("ngrok.pid")
 	}()
+
+	// Write the PID to ngrok.pid
+	pid := cmd.Process.Pid
+	if err := os.WriteFile("ngrok.pid", []byte(strconv.Itoa(pid)), 0600); err != nil {
+		t.Fatalf("Failed to write ngrok.pid: %v", err)
+	}
+
+	// Give the process a moment to start
+	time.Sleep(100 * time.Millisecond)
+
+	// Attempt to kill the process using KillRunningProcess
+	err := killprocess.KillRunningProcess()
+	if err != nil {
+		t.Errorf("KillRunningProcess returned error: %v", err)
+	}
+
+	// Check if the process is still running
+	if err := cmd.Process.Signal(os.Signal(0)); err == nil {
+		t.Errorf("Process should have been killed, but is still running")
+	}
+
+	// Test with missing PID file
+	_ = os.Remove("ngrok.pid")
+	err = killprocess.KillRunningProcess()
+	if err == nil {
+		t.Errorf("Expected error when PID file is missing, got nil")
+	}
+
+	// Test with invalid PID in file
+	if err := os.WriteFile("ngrok.pid", []byte("invalid"), 0600); err != nil {
+		t.Fatalf("Failed to write invalid ngrok.pid: %v", err)
+	}
+	err = killprocess.KillRunningProcess()
+	if err == nil {
+		t.Errorf("Expected error with invalid PID, got nil")
+	}
 
 	// Test case 1: Process name is empty
 	err = killprocess.KillRunningProcess("")
