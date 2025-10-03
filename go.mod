@@ -1,6 +1,6 @@
 module localhost/ngtools
 
-go 1.20
+go 1.25
 
 require (
 	github.com/fatih/color v1.18.0
